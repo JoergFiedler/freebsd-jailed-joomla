@@ -1,0 +1,10 @@
+---
+- name: Copy nginx configuration
+  template: src=nginx-server.conf.p2
+            dest={{ jail_home.stdout }}/usr/local/etc/nginx/includes/{{ joomla_server_name }}.conf
+  notify:
+  - Reload {{ jail_name }} s nginx
+
+- name: Copy index.php
+  copy: src=index.php
+        dest={{ jail_home.stdout }}{{ joomla_server_home }}/web-root/

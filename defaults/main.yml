@@ -1,0 +1,3 @@
+---
+# defaults file for freebsd-jailed-php-fpm
+joomla_server_name: '127.0.0.1'

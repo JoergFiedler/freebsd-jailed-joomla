@@ -1,0 +1,36 @@
+[www]
+prefix = {{ joomla_server_home }}
+listen = /var/run/fpm-{{ joomla_server_name }}.sock
+listen.owner = www
+listen.group = www
+user = www
+group = www
+
+pm = dynamic
+pm.max_children = 5
+pm.start_servers = 1
+pm.min_spare_servers = 1
+pm.max_spare_servers = 2
+pm.max_requests = 1000
+
+pm.status_path = /status
+ping.path = /ping
+access.log = log/access.log
+access.format = "%t \"%m %r%Q%q\" %s %f %{mili}d %{kilo}M %{user}C%% %{system}C%%"
+
+chroot = {{ joomla_server_home }}/web-root
+
+php_admin_value[memory_limit] = 32M
+php_admin_value[upload_max_filesize] = 50M
+php_admin_value[post_max_size] = 50M
+php_admin_value[opcache.revalidate_freq]=15
+php_admin_value[opcache.log_verbosity_level]=2
+
+php_admin_value[disable_functions] = system passthru shell_exec popen escapeshell cmd proc_open proc_nice ini_restore phpinfo
+
+;;;;;;;;;;;;;;;;;;;
+; Debugging Stuff ;
+;;;;;;;;;;;;;;;;;;;
+;catch_workers_output = yes
+;php_flag[display_errors] = off
+;php_admin_flag[log_errors] = on

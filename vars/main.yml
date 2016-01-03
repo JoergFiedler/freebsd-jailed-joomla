@@ -1,0 +1,3 @@
+---
+# vars file for freebsd-jailed-php-fpm
+joomla_server_home: '/home/{{ joomla_server_name | replace(".","_") }}'

@@ -1,0 +1,9 @@
+---
+- name: Download Joomla
+  get_url: url=https://github.com/joomla/joomla-cms/releases/download/3.4.8/Joomla_3.4.8-Stable-Full_Package.zip
+           dest=/etc/foo.conf
+           mode=0440
+
+#- name: Extract Joomla archive
+#  unarchive: src=/tmp/foo.zip dest=/usr/local/bin copy=no
+

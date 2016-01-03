@@ -1,0 +1,5 @@
+---
+# handlers file for freebsd-jailed-php-fpm
+- name: Reload {{ jail_name }} s php-fpm
+  command: /usr/local/sbin/iocage exec {{ jail_uuid.stdout }} service php-fpm reload
+  when: not jail_created|changed

@@ -1,0 +1,23 @@
+---
+- name: Create log directory for php-fpm
+  file: path={{ jail_home.stdout }}{{ joomla_server_home }}/log
+        state=directory
+
+- name: Create fpm.d directory
+  file: path={{ jail_home.stdout }}/usr/local/etc/fpm.d
+        state=directory
+
+- name: Create logrotate config directory
+  file: path={{ jail_home.stdout }}/usr/local/etc/newsyslog.conf.d
+        state=directory
+
+- name: Copy fpm pool configuration
+  template: src=php-fpm-pool.conf.p2
+            dest={{ jail_home.stdout }}/usr/local/etc/fpm.d/php-fpm-pool.conf
+  notify:
+  - Reload {{ jail_name }} s php-fpm
+
+- name: Copy logrotate config
+  template: src=newsyslog.conf.d/fpm-pool-access.p2
+            dest={{ jail_home.stdout }}/usr/local/etc/newsyslog.conf.d/fpm-{{ joomla_server_name }}
+

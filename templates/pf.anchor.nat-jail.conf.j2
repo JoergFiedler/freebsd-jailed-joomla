@@ -1,0 +1,9 @@
+# redirect http(s) requests to github (Download Joomla)
+nat pass log on {{ host_net_ext_if }} proto tcp \
+  from {{ jail_net_ip }} \
+  to 192.30.252.0/22 port { http,https } \
+  -> {{ host_net_ext_ip }}
+nat pass log on {{ host_net_ext_if }} proto udp \
+  from {{ jail_net_ip }} \
+  to any port domain \
+  -> {{ host_net_ext_ip }}
