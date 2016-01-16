@@ -1,6 +1,6 @@
 ---
 - name: Copy MaxCDN ip block definitions
-  copy: src=maxcdn.ips
+  copy: src=pf.table.maxcdn.ips
         dest=/etc/pf.table.maxcdn.ips
 
 - name: Copy pf configuration (nat rules)
