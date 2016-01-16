@@ -1,6 +1,6 @@
 [www]
 prefix = {{ joomla_server_home }}
-listen = /var/run/fpm-{{ joomla_server_name }}.sock
+listen = /var/run/fpm-{{ joomla_server_name_ }}.sock
 listen.owner = www
 listen.group = www
 user = www
@@ -13,24 +13,28 @@ pm.min_spare_servers = 1
 pm.max_spare_servers = 2
 pm.max_requests = 1000
 
-pm.status_path = /status
-ping.path = /ping
 access.log = log/access.log
 access.format = "%t \"%m %r%Q%q\" %s %f %{mili}d %{kilo}M %{user}C%% %{system}C%%"
 
-chroot = {{ joomla_server_home }}/web-root
+chroot = {{ joomla_server_webroot }}
 
 php_admin_value[memory_limit] = 32M
+php_admin_value[max_execution_time] = 15
+php_admin_value[session.hash_function] = sha512
+php_admin_value[safe_mode] = Off
+php_admin_value[expose_php] = Off
+php_admin_value[allow_url_fopen] = On
+php_admin_value[allow_url_include] = Off
 php_admin_value[upload_max_filesize] = 50M
 php_admin_value[post_max_size] = 50M
 php_admin_value[opcache.revalidate_freq]=15
 php_admin_value[opcache.log_verbosity_level]=2
 
-php_admin_value[disable_functions] = system passthru shell_exec popen escapeshell cmd proc_open proc_nice ini_restore phpinfo
+php_admin_value[disable_functions] = disk_free_space, diskfreespace, dl, escapeshellcmd, exec, ini_alter, ini_get_all, ini_restore, ini_set, passthru, php_uname, phpinfo, popen, proc_nice, proc_open, shell_exec, show_source, symlink, system
 
 ;;;;;;;;;;;;;;;;;;;
 ; Debugging Stuff ;
 ;;;;;;;;;;;;;;;;;;;
-;catch_workers_output = yes
-;php_flag[display_errors] = off
-;php_admin_flag[log_errors] = on
+catch_workers_output = no
+php_flag[display_errors] = off
+php_admin_flag[log_errors] = off

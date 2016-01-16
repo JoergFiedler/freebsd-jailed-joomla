@@ -1,3 +1,7 @@
 ---
 # vars file for freebsd-jailed-php-fpm
-joomla_server_home: '/home/{{ joomla_server_name | replace(".","_") }}'
+joomla_server_name_: '{{ joomla_server_name | replace(".","_") }}'
+joomla_server_home: '/home/{{ joomla_server_name_ }}'
+joomla_server_webroot: '/home/{{ joomla_server_name_ }}/webroot'
+joomla_host_zfs_mount_webroot: '{{ joomla_host_zfs_mount }}/webroot'
+

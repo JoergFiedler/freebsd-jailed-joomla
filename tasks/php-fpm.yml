@@ -14,16 +14,23 @@
   - php56-tidy
   - php56-sqlite3
   - php56-xml
+  - php56-session
+  - php56-json
+  - php56-zlib
+  - php56-mysqli
+  - php56-zip
   notify:
-  - Reload {{ jail_name }} s php-fpm
+  - Reload jails s php-fpm
 
 - name: Enable php-fpm service
   lineinfile: dest={{ jail_home.stdout }}/etc/rc.conf
               state=present
               regexp='^php_fpm_enable='
-              line='php_fpm_enable=\"YES\"'
+              line='php_fpm_enable="YES"'
 
 - name: Copy php-fpm.conf
   copy: src=php-fpm.conf
         dest={{ jail_home.stdout }}/usr/local/etc/php-fpm.conf
+  notify:
+  - Reload jail s php-fpm
 

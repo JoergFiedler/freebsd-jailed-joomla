@@ -1,6 +1,6 @@
 ---
 - name: Create log directory for php-fpm
-  file: path={{ jail_home.stdout }}{{ joomla_server_home }}/log
+  file: path={{ joomla_host_zfs_mount }}/log
         state=directory
 
 - name: Create fpm.d directory

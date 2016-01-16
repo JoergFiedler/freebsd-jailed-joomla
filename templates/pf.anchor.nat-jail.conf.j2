@@ -1,9 +1,7 @@
-# redirect http(s) requests to github (Download Joomla)
-nat pass log on {{ host_net_ext_if }} proto tcp \
+# nat http(s) requests to udpate Joomla
+# https://www.maxcdn.com/one/tutorial/ip-blocks/
+table <maxcdn_ips> persist file "/etc/pf.table.maxcdn.ips"
+pass log on {{ host_net_int_if }} proto tcp \
   from {{ jail_net_ip }} \
-  to 192.30.252.0/22 port { http,https } \
-  -> {{ host_net_ext_ip }}
-nat pass log on {{ host_net_ext_if }} proto udp \
-  from {{ jail_net_ip }} \
-  to any port domain \
-  -> {{ host_net_ext_ip }}
+  to <maxcdn_ips> port { http,https } \
+  label {{ joomla_server_name_ }}-updates

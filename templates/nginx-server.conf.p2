@@ -3,7 +3,7 @@ server {
   listen 80;
   listen 443 ssl;
 
-  root   {{ joomla_server_home }}/web-root;
+  root   {{ joomla_server_webroot }};
 
   location / {
     index index.php index.html index.htm;
@@ -18,9 +18,9 @@ server {
 
   location ~ [^/]\.php(/|$) {
     fastcgi_split_path_info ^(.+?\.php)(/.*)$;
-    try_files $uri = 404;
+    try_files $uri =404;
     fastcgi_param SCRIPT_FILENAME $fastcgi_script_name;
-    fastcgi_pass unix:/var/run/fpm-{{ joomla_server_name }}.sock;
+    fastcgi_pass unix:/var/run/fpm-{{ joomla_server_name_ }}.sock;
     fastcgi_index index.php;
     include fastcgi_params;
   }

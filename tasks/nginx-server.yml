@@ -7,4 +7,4 @@
 
 - name: Copy index.php
   copy: src=index.php
-        dest={{ jail_home.stdout }}{{ joomla_server_home }}/web-root/
+        dest={{ joomla_host_zfs_mount_webroot }}

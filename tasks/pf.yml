@@ -1,4 +1,8 @@
 ---
+- name: Copy MaxCDN ip block definitions
+  copy: src=maxcdn.ips
+        dest=/etc/pf.table.maxcdn.ips
+
 - name: Copy pf configuration (nat rules)
   template:
     src: pf.anchor.nat-jail.conf.j2
@@ -10,7 +14,22 @@
   lineinfile:
     dest: /etc/pf.anchor.nat-jail.conf
     state: present
-    line: 'include \"/etc/pf.anchor.nat-jail.{{ jail_name }}-joomla.conf\"'
+    line: 'include "/etc/pf.anchor.nat-jail.{{ jail_name }}-joomla.conf"'
+  notify:
+    - Reload pf
+
+- name: Copy pf configuration (rls rules)
+  template:
+    src: pf.anchor.rls-jail.conf.j2
+    dest: /etc/pf.anchor.rls-jail.{{ jail_name }}-joomla.conf
+  notify:
+    - Reload pf
+
+- name: Add pf configuration to anchor.rls-jail conf
+  lineinfile:
+    dest: /etc/pf.anchor.rls-jail.conf
+    state: present
+    line: 'include "/etc/pf.anchor.rls-jail.{{ jail_name }}-joomla.conf"'
   notify:
     - Reload pf
 

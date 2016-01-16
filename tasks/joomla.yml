@@ -1,9 +1,61 @@
 ---
-- name: Download Joomla
-  get_url: url=https://github.com/joomla/joomla-cms/releases/download/3.4.8/Joomla_3.4.8-Stable-Full_Package.zip
-           dest=/etc/foo.conf
-           mode=0440
+- name: Create Jommla database
+  mysql_db: name=joomla_{{ joomla_server_name_ }}
+            login_host={{ joomla_db_host }}
+            login_password={{ joomla_db_host_password }}
+            login_user={{ joomla_db_host_user }}
+            state=present
 
-#- name: Extract Joomla archive
-#  unarchive: src=/tmp/foo.zip dest=/usr/local/bin copy=no
+- name: Create MariaDB joomla user
+  mysql_user: name={{ joomla_db_user }}
+              encrypted=no
+              host={{ jail_net_ip }}
+              login_host={{ joomla_db_host }}
+              login_password={{ joomla_db_host_password }}
+              login_user={{ joomla_db_host_user }}
+              password={{ joomla_db_password }}
+              priv={{ joomla_db_priv }}
+              state=present
+
+- name: Create ZFS dataset s mount point
+  file: path={{ joomla_host_zfs_mount }}
+        state=directory
+
+- name: Create ZFS dataset for instance
+  zfs:  name={{ joomla_host_zfs_dataset }}
+        state=present
+        mountpoint={{ joomla_host_zfs_mount }}
+
+- name: Configure jail to mount file system from host
+  mount: name={{ jail_home.stdout }}{{ joomla_server_home }}
+         fstab={{ jail_home.stdout }}/../fstab
+         fstype=nullfs
+         opts=rw
+         src={{ joomla_host_zfs_mount }}
+         state=present
+
+- name: Create joomla web root directory
+  file: path={{ joomla_host_zfs_mount_webroot }}
+        state=directory
+
+- name: Download Joomla
+  become: false
+  local_action: get_url
+    url={{ joomla_download_url }}
+    dest=./tmp/joomla-package.zip
+
+- name: Extract Joomla
+  unarchive: copy=yes
+             creates={{ joomla_host_zfs_mount_webroot }}/joomla.xml
+             src=./tmp/joomla-package.zip
+             dest={{ joomla_host_zfs_mount_webroot }}
+             owner=www
+             group=www
+
+- name: Update webroot file permissions
+  file: path={{ joomla_host_zfs_mount_webroot }}
+        state=directory
+        owner=www
+        group=www
+
 
