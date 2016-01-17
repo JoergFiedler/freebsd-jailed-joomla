@@ -6,4 +6,4 @@ galaxy_info:
   license: license (GPLv2, CC-BY, etc)
   min_ansible_version: 2.0
 dependencies:
-- { role: ../freebsd-jailed-nginx }
+- { role: JoergFiedler.freebsd-jailed-nginx }
