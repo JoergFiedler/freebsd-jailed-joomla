@@ -16,8 +16,11 @@ pm.max_requests = 1000
 access.log = log/access.log
 access.format = "%t \"%m %r%Q%q\" %s %f %{mili}d %{kilo}M %{user}C%% %{system}C%%"
 
-chroot = {{ joomla_server_webroot }}
-
+php_admin_value[upload_tmp_dir] = {{ joomla_server_webroot }}/tmp
+php_admin_value[sys_temp_dir] = {{ joomla_server_webroot }}/tmp
+php_admin_value[session.save_path] = "256;;/{{ joomla_server_webroot }}/tmp"
+php_admin_value[open_basedir] = {{ joomla_server_webroot }}
+php_admin_value[date.timezone] = Europe/Berlin
 php_admin_value[memory_limit] = 32M
 php_admin_value[max_execution_time] = 15
 php_admin_value[session.hash_function] = sha512
@@ -30,8 +33,7 @@ php_admin_value[post_max_size] = 50M
 php_admin_value[opcache.revalidate_freq]=15
 php_admin_value[opcache.log_verbosity_level]=2
 
-php_admin_value[disable_functions] = disk_free_space, diskfreespace, dl, escapeshellcmd, exec, ini_alter, ini_get_all, ini_restore, ini_set, passthru, php_uname, phpinfo, popen, proc_nice, proc_open, shell_exec, show_source, symlink, system
-
+php_admin_value[disable_functions] = disk_free_space, diskfreespace, dl, escapeshellcmd, exec, passthru, php_uname, phpinfo, popen, proc_nice, proc_open, shell_exec, show_source, symlink, system
 ;;;;;;;;;;;;;;;;;;;
 ; Debugging Stuff ;
 ;;;;;;;;;;;;;;;;;;;

@@ -1,7 +1,12 @@
 # nat http(s) requests to udpate Joomla
 # https://www.maxcdn.com/one/tutorial/ip-blocks/
 table <maxcdn_ips> persist file "/etc/pf.table.maxcdn.ips"
-pass log on {{ host_net_int_if }} proto tcp \
+table <joomla_download_ips> file "/etc/pf.table.joomla.download.ips"
+nat pass log on {{ host_net_ext_if }} proto tcp \
   from {{ jail_net_ip }} \
   to <maxcdn_ips> port { http,https } \
-  label {{ joomla_server_name_ }}-updates
+  -> {{ host_net_ext_ip }}
+nat pass log on {{ host_net_ext_if }} proto tcp \
+  from {{ jail_net_ip }} \
+  to <joomla_download_ips> port { http,https } \
+  -> {{ host_net_ext_ip }}

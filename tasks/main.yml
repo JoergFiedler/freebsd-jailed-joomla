@@ -1,7 +1,7 @@
 ---
 
-- include: joomla.yml
+- include: pf.yml
+- include: nginx-server.yml
 - include: php-fpm.yml
 - include: fpm-pool.yml
-- include: nginx-server.yml
-- include: pf.yml
+- include: joomla.yml

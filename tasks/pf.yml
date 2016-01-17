@@ -3,6 +3,10 @@
   copy: src=pf.table.maxcdn.ips
         dest=/etc/pf.table.maxcdn.ips
 
+- name: Copy Joomla Download ip block definitions
+  copy: src=pf.table.joomla.download.ips
+        dest=/etc/pf.table.joomla.download.ips
+
 - name: Copy pf configuration (nat rules)
   template:
     src: pf.anchor.nat-jail.conf.j2

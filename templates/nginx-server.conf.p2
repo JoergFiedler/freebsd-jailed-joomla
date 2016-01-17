@@ -19,7 +19,7 @@ server {
   location ~ [^/]\.php(/|$) {
     fastcgi_split_path_info ^(.+?\.php)(/.*)$;
     try_files $uri =404;
-    fastcgi_param SCRIPT_FILENAME $fastcgi_script_name;
+    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
     fastcgi_pass unix:/var/run/fpm-{{ joomla_server_name_ }}.sock;
     fastcgi_index index.php;
     include fastcgi_params;

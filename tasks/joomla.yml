@@ -46,12 +46,12 @@
   become: false
   local_action: get_url
     url={{ joomla_download_url }}
-    dest=./tmp/joomla-package.zip
+    dest=./joomla-package.zip
 
 - name: Extract Joomla
   unarchive: copy=yes
-             creates={{ joomla_host_zfs_mount_webroot }}/joomla.xml
-             src=./tmp/joomla-package.zip
+             creates={{ joomla_host_zfs_mount_webroot }}/configuration.php
+             src=./joomla-package.zip
              dest={{ joomla_host_zfs_mount_webroot }}
              owner=www
              group=www
@@ -62,4 +62,11 @@
         owner=www
         group=www
 
+- name: Delete obsolete files
+  file: path={{ item }}
+        state=absent
+  with_items:
+  - '{{ joomla_host_zfs_mount_webroot }}/robots.txt.dist'
+  - '{{ joomla_host_zfs_mount_webroot }}/web.config.txt'
+  - ./joomla-package.zip
 
