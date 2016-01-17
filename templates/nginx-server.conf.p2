@@ -2,12 +2,12 @@ server {
   server_name {{ joomla_server_name }};
   listen 80;
   listen 443 ssl;
+  server_tokens off;
 
   root   {{ joomla_server_webroot }};
 
   location / {
     index index.php index.html index.htm;
-    try_files $uri $uri/ /index.php?$args;
   }
 
   # deny running scripts inside writable directories
@@ -18,7 +18,7 @@ server {
 
   location ~ [^/]\.php(/|$) {
     fastcgi_split_path_info ^(.+?\.php)(/.*)$;
-    try_files $uri =404;
+    try_files $uri $uri/ /index.php?$args;
     fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
     fastcgi_pass unix:/var/run/fpm-{{ joomla_server_name_ }}.sock;
     fastcgi_index index.php;

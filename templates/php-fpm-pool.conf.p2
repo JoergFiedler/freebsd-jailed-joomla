@@ -18,7 +18,7 @@ access.format = "%t \"%m %r%Q%q\" %s %f %{mili}d %{kilo}M %{user}C%% %{system}C%
 
 php_admin_value[upload_tmp_dir] = {{ joomla_server_webroot }}/tmp
 php_admin_value[sys_temp_dir] = {{ joomla_server_webroot }}/tmp
-php_admin_value[session.save_path] = "256;;/{{ joomla_server_webroot }}/tmp"
+php_admin_value[session.save_path] = {{ joomla_server_webroot }}/tmp
 php_admin_value[open_basedir] = {{ joomla_server_webroot }}
 php_admin_value[date.timezone] = Europe/Berlin
 php_admin_value[memory_limit] = 32M

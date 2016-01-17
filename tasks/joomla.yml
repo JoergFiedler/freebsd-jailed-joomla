@@ -17,44 +17,24 @@
               priv={{ joomla_db_priv }}
               state=present
 
-- name: Create ZFS dataset s mount point
-  file: path={{ joomla_host_zfs_mount }}
-        state=directory
-
-- name: Create ZFS dataset for instance
-  zfs:  name={{ joomla_host_zfs_dataset }}
-        state=present
-        mountpoint={{ joomla_host_zfs_mount }}
-
-- name: Create all paths to server home
-  file: path={{ jail_home.stdout }}{{ joomla_server_home }}
-        state=directory
-
-- name: Configure jail to mount file system from host
-  mount: name={{ jail_home.stdout }}{{ joomla_server_home }}
-         fstab={{ jail_home.stdout }}/../fstab
-         fstype=nullfs
-         opts=rw
-         src={{ joomla_host_zfs_mount }}
-         state=present
-
-- name: Create joomla web root directory
-  file: path={{ joomla_host_zfs_mount_webroot }}
-        state=directory
+- name: Check if Joomla Installation is present
+  stat: path={{ joomla_host_zfs_mount_webroot }}/index.php
+  register: joomla_index_file
 
 - name: Download Joomla
   become: false
   local_action: get_url
     url={{ joomla_download_url }}
     dest=./joomla-package.zip
+  when: not joomla_index_file.stat.exists
 
 - name: Extract Joomla
   unarchive: copy=yes
-             creates={{ joomla_host_zfs_mount_webroot }}/configuration.php
              src=./joomla-package.zip
              dest={{ joomla_host_zfs_mount_webroot }}
              owner=www
              group=www
+  when: not joomla_index_file.stat.exists
 
 - name: Update webroot file permissions
   file: path={{ joomla_host_zfs_mount_webroot }}
@@ -68,5 +48,11 @@
   with_items:
   - '{{ joomla_host_zfs_mount_webroot }}/robots.txt.dist'
   - '{{ joomla_host_zfs_mount_webroot }}/web.config.txt'
-  - ./joomla-package.zip
+  - '{{ joomla_host_zfs_mount_webroot }}/htaccess.txt'
+
+- name: Delete obsolete file (local)
+  become: false
+  local_action: file
+    path=./joomla-package.zip
+    state=absent
 

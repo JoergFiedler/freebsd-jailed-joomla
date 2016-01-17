@@ -1,4 +1,29 @@
 ---
+- name: Create fpm-pool s ZFS dataset s mount point
+  file: path={{ joomla_host_zfs_mount }}
+        state=directory
+
+- name: Create fpm-pool s ZFS dataset
+  zfs:  name={{ joomla_host_zfs_dataset }}
+        state=present
+        mountpoint={{ joomla_host_zfs_mount }}
+
+- name: Create all paths to fpm-pool s web root
+  file: path={{ jail_home.stdout }}{{ joomla_server_home }}
+        state=directory
+
+- name: Configure jail to mount file system from host
+  mount: name={{ jail_home.stdout }}{{ joomla_server_home }}
+         fstab={{ jail_home.stdout }}/../fstab
+         fstype=nullfs
+         opts=rw
+         src={{ joomla_host_zfs_mount }}
+         state=present
+
+- name: Create web root directory
+  file: path={{ joomla_host_zfs_mount_webroot }}
+        state=directory
+
 - name: Create log directory for php-fpm
   file: path={{ joomla_host_zfs_mount }}/log
         state=directory
