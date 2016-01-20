@@ -1,31 +1,58 @@
-Role Name
+freebsd-jailed-joomla
 =========
 
-A brief description of the role goes here.
+This role provides a jailed Joomla CMS server.
+
+To see this role in action, have a look at [this project of mine](https://github.com/JoergFiedler/freebsd-ansible-demo).
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+This role is intent to be used with a fresh FreeBSD 10.2 installation. There is a Vagrant Box with providers for VirtualBox and EC2 you may use.
+
+You will find a sample project which uses this role [here](https://github.com/JoergFiedler/freebsd-ansible-demo).
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+##### joomla_download_url
+The Joomla Download URL. Default: `'https://github.com/joomla/joomla-cms/releases/download/3.4.8/Joomla_3.4.8-Stable-Full_Package.zip'`.
+
+##### joomla_db_name
+The MariaDB database name. The database will be created if not exists. Default: : Default: `'joomla_{{ server_name_ }}'`.
+
+##### joomla_db_user
+The db user name for Joomla CMS. Default: `'joomla_{{ server_name_ }}'`.
+
+##### joomla_db_password
+The Joomla CMS's db user password. Default: `'joomla_{{ server_name_ }}'`.
+
+##### joomla_db_priv
+The priviliges granted to the Joomla CMS's db user. Default: `'{{ joomla_db_name }}.*:All'`.
+
+##### joomla_db_host
+The MariaDB host ip. Default: `'10.1.0.4'`.
+
+##### joomla_db_host_user
+The user used to create the Joomla CMS database and user. Default: `'root'`.
+
+##### joomla_db_host_password
+The passwort for the administrative DB user. Default: `'passwd'`.
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+- [JoergFiedler.freebsd-jailed-php-fpm](https://galaxy.ansible.com/detail#/role/7079)
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+    - { role: JoergFiedler.freebsd-jailed-joomla,
+        tags: ['joomla'],
+        use_ssmtp: true,
+        use_syslogd_server: true,
+        jail_name: 'joomla',
+        jail_net_ip: '10.1.0.6' }
 
 License
 -------
@@ -35,4 +62,4 @@ BSD
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+If you like it or do have ideas to improve this project, please open an issue on Github. Thanks.

@@ -1,14 +1,8 @@
 server {
-  server_name {{ joomla_server_name }};
+  server_name {{ server_name }};
   listen 80;
   listen 443 ssl;
   server_tokens off;
-
-  root   {{ joomla_server_webroot }};
-
-  location / {
-    index index.php index.html index.htm;
-  }
 
   # deny running scripts inside writable directories
   location ~* /(images|cache|media|logs|tmp)/.*\.(php|pl|py|sh|cgi)$ {
@@ -16,21 +10,13 @@ server {
     error_page 403 /403_error.html;
   }
 
-  location ~ [^/]\.php(/|$) {
-    fastcgi_split_path_info ^(.+?\.php)(/.*)$;
-    try_files $uri $uri/ /index.php?$args;
-    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-    fastcgi_pass unix:/var/run/fpm-{{ joomla_server_name_ }}.sock;
-    fastcgi_index index.php;
-    include fastcgi_params;
-  }
-
   # caching
   location ~* \.(ico|pdf|flv)$ {
     expires 1y;
   }
+
   location ~* \.(js|css|png|jpg|jpeg|gif|swf|xml|txt)$ {
-    expires 14d;
+    expires 1y;
   }
 
   gzip            on;

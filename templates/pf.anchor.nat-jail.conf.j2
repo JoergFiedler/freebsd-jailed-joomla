@@ -6,6 +6,7 @@ nat pass log on {{ host_net_ext_if }} proto tcp \
   from {{ jail_net_ip }} \
   to <maxcdn_ips> port { http,https } \
   -> {{ host_net_ext_ip }}
+# nat http(s) request to update/download joomla plugins
 nat pass log on {{ host_net_ext_if }} proto tcp \
   from {{ jail_net_ip }} \
   to <joomla_download_ips> port { http,https } \

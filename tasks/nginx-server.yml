@@ -1,7 +1,7 @@
 ---
 - name: Copy nginx configuration
   template: src=nginx-server.conf.p2
-            dest={{ jail_home.stdout }}/usr/local/etc/nginx/includes/{{ joomla_server_name }}.conf
+            dest={{ jail_home.stdout }}/usr/local/etc/nginx/includes/{{ server_name_ }}.conf
   notify:
   - Reload jail s nginx
 
