@@ -2,10 +2,14 @@
 - name: Copy MaxCDN ip block definitions
   copy: src=pf.table.maxcdn.ips
         dest=/etc/pf.table.maxcdn.ips
+  notify:
+    - Reload pf
 
 - name: Copy Joomla plugin download ip/names definitions
   copy: src=pf.table.joomla.download.ips
         dest=/etc/pf.table.joomla.download.ips
+  notify:
+    - Reload pf
 
 - name: Copy pf configuration (nat rules)
   template:
