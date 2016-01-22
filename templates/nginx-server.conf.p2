@@ -1,5 +1,4 @@
 server {
-  server_name {{ server_name }};
   listen 80;
   listen 443 ssl;
   server_tokens off;
