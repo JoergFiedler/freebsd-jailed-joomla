@@ -18,7 +18,7 @@
               state=present
 
 - name: Check if Joomla Installation is present
-  stat: path={{ server_host_zfs_mount_webroot }}/administrator
+  stat: path={{ server_host_zfs_webroot_dir }}/administrator
   register: joomla_index_file
 
 - name: Download Joomla
@@ -31,13 +31,13 @@
 - name: Extract Joomla
   unarchive: copy=yes
              src=./joomla-package.zip
-             dest={{ server_host_zfs_mount_webroot }}
+             dest={{ server_host_zfs_webroot_dir }}
              owner=www
              group=www
   when: not joomla_index_file.stat.exists
 
 - name: Update webroot file permissions
-  file: path={{ server_host_zfs_mount_webroot }}
+  file: path={{ server_host_zfs_webroot_dir }}
         state=directory
         owner=www
         group=www
@@ -46,9 +46,9 @@
   file: path={{ item }}
         state=absent
   with_items:
-  - '{{ server_host_zfs_mount_webroot }}/robots.txt.dist'
-  - '{{ server_host_zfs_mount_webroot }}/web.config.txt'
-  - '{{ server_host_zfs_mount_webroot }}/htaccess.txt'
+  - '{{ server_host_zfs_webroot_dir }}/robots.txt.dist'
+  - '{{ server_host_zfs_webroot_dir }}/web.config.txt'
+  - '{{ server_host_zfs_webroot_dir }}/htaccess.txt'
 
 - name: Delete obsolete file (local)
   become: false
