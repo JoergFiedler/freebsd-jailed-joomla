@@ -1,4 +1,10 @@
 ---
+- name: Install additional packages
+  pkgng: name={{ item }}
+         state=present
+  with_items:
+  - py27-MySQLdb
+
 - name: Create Jommla database
   mysql_db: name=joomla_{{ server_name_ }}
             login_host={{ joomla_db_host }}
