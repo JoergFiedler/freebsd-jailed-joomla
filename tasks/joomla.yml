@@ -6,7 +6,7 @@
   - py27-MySQLdb
 
 - name: Create Jommla database
-  mysql_db: name=joomla_{{ server_name_ }}
+  mysql_db: name={{ joomla_db_name }}
             login_host={{ joomla_db_host }}
             login_password={{ joomla_db_host_password }}
             login_user={{ joomla_db_host_user }}

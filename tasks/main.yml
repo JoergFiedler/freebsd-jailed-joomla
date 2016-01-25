@@ -1,5 +1,4 @@
 ---
-
 - include: pf.yml
 - include: nginx-server.yml
 - include: joomla.yml
