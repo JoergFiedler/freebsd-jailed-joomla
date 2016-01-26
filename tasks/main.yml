@@ -1,4 +1,4 @@
 ---
-- include: pf.yml
-- include: nginx-server.yml
-- include: joomla.yml
+- include: pf.yml tags=joomla
+- include: nginx-server.yml tags=joomla
+- include: joomla.yml tags=joomla
