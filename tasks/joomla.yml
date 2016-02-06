@@ -45,6 +45,8 @@
 - name: Update webroot file permissions
   file: path={{ server_webroot_host_zfs_dir }}
         state=directory
+        recurse=yes
+        mode=1770
         owner=www
         group=www
 
