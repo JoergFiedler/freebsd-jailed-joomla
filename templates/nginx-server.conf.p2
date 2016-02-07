@@ -1,16 +1,15 @@
-location = /favicon.ico {
+location = /favicon.ico$ {
   log_not_found off;
   access_log off;
 }
 
-location = /robots.txt {
+location = /robots.txt$ {
   log_not_found off;
   access_log off;
 }
 
 location = /administrator/ {
   set $skip_cache 1;
-  index index.php index.html index.htm;
 }
 
 location ~* /(images|cache|media|logs|tmp)/.*\.(php|pl|py|sh|cgi)$ {
@@ -22,16 +21,11 @@ location ~* /\. {
   deny all;
 }
 
-location / {
-  try_files $uri $uri/ /index.php?$args;
-}
+try_files $uri $uri/ /index.php/$args;
 
 # caching
-location ~* \.(ico|pdf|flv)$ {
-  expires 1y;
-}
-location ~* \.(js|css|png|jpg|jpeg|gif|swf|xml|txt)$ {
-  expires 1y;
+location ~* \.(js|css|png|jpg|jpeg|gif|xml|txt|ico|pdf)$ {
+  expires max;
 }
 
 gzip            on;
