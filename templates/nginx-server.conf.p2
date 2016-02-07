@@ -8,7 +8,8 @@ location = /robots.txt$ {
   access_log off;
 }
 
-location = /administrator/ {
+rewrite /administrator$ $scheme://$host$uri/ permanent;
+location /administrator/ {
   set $skip_cache 1;
 }
 
