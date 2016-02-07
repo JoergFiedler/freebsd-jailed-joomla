@@ -22,11 +22,14 @@ location ~* /\. {
   deny all;
 }
 
+location / {
+  try_files $uri $uri/ /index.php?$args;
+}
+
 # caching
 location ~* \.(ico|pdf|flv)$ {
   expires 1y;
 }
-
 location ~* \.(js|css|png|jpg|jpeg|gif|swf|xml|txt)$ {
   expires 1y;
 }
