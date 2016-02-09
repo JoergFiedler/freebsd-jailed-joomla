@@ -5,7 +5,7 @@
   with_items:
   - py27-MySQLdb
 
-- name: Create Jommla database
+- name: Create Joomla database
   mysql_db: name={{ joomla_db_name }}
             login_host={{ joomla_db_host }}
             login_password={{ joomla_db_host_password }}
