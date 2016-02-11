@@ -6,8 +6,8 @@
     - Reload pf
 
 - name: Copy Joomla plugin download ip/names definitions
-  copy: src=pf.table.joomla.download.ips
-        dest=/etc/pf.table.joomla.download.ips
+  file: dest=/etc/pf.table.joomla.download.ips
+        state=absent
   notify:
     - Reload pf
 
