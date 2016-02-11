@@ -8,8 +8,9 @@ location = /robots.txt$ {
   access_log off;
 }
 
-rewrite /administrator$ $scheme://$host$uri/ permanent;
-location /administrator/ {
+rewrite /administrator$ $scheme://$host$uri/index.php permanent;
+location ~ /administrator/index.php {
+  include /usr/local/etc/nginx/includes/{{ server_name }}.fastcgi.conf;
   set $skip_cache 1;
 }
 
