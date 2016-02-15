@@ -35,20 +35,22 @@
   when: not joomla_index_file.stat.exists
 
 - name: Extract Joomla
-  unarchive: copy=yes
-             src=./joomla-package.zip
-             dest={{ server_webroot_host_zfs_dir }}
-             owner=www
-             group=www
+  unarchive:
+    copy: 'yes'
+    src: './joomla-package.zip'
+    dest: '{{ server_webroot_host_zfs_dir }}'
+    owner: '{{ sftp_user | default("www") }}'
+    group: 'www'
   when: not joomla_index_file.stat.exists
 
 - name: Update webroot file permissions
-  file: path={{ server_webroot_host_zfs_dir }}
-        state=directory
-        recurse=yes
-        mode=u+rw,g+rw
-        owner=www
-        group=www
+  file:
+    path: '{{ server_webroot_host_zfs_dir }}'
+    state: 'directory'
+    recurse: 'yes'
+    mode: 'u+rw,g-w'
+    owner: '{{ sftp_user | default("www") }}'
+    group: 'www'
 
 - name: Delete obsolete files
   file: path={{ item }}
