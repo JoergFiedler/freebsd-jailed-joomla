@@ -39,7 +39,7 @@
     copy: 'yes'
     src: './joomla-package.zip'
     dest: '{{ server_webroot_host_zfs_dir }}'
-    owner: '{{ sftp_user | default("www") }}'
+    owner: '{{ sftp_user_uid | default("www") }}'
     group: 'www'
   when: not joomla_index_file.stat.exists
 
@@ -49,7 +49,7 @@
     state: 'directory'
     recurse: 'yes'
     mode: 'u+rw,g-w'
-    owner: '{{ sftp_user | default("www") }}'
+    owner: '{{ sftp_user_uid | default("www") }}'
     group: 'www'
 
 - name: Delete obsolete files
