@@ -1,12 +1,14 @@
 ---
 # defaults file for freebsd-jailed-php-fpm
+joomla_server_name: '{{ jail_name }}'
 joomla_download_url: 'https://github.com/joomla/joomla-cms/releases/download/3.4.8/Joomla_3.4.8-Stable-Full_Package.zip'
 
-joomla_db_name: 'joomla_{{ server_name_ }}'
-joomla_db_user: 'joomla_{{ server_name_ }}'
-joomla_db_password: 'joomla_{{ server_name_ }}'
+joomla_db_name: 'joomla_{{ joomla_server_name_ }}'
+joomla_db_user: 'joomla_{{ joomla_server_name_ }}'
+joomla_db_password: 'joomla_{{ joomla_server_name_ }}'
 joomla_db_priv: '{{ joomla_db_name }}.*:All'
 joomla_db_host: '10.1.0.4'
 joomla_db_host_user: 'root'
 joomla_db_host_password: 'passwd'
+joomla_sftp_port: 10022
 

@@ -31,13 +31,13 @@
   become: false
   local_action: get_url
     url={{ joomla_download_url }}
-    dest=./joomla-package.zip
+    dest=/tmp/joomla-package.zip
   when: not joomla_index_file.stat.exists
 
 - name: Extract Joomla
   unarchive:
     copy: 'yes'
-    src: './joomla-package.zip'
+    src: '/tmp/joomla-package.zip'
     dest: '{{ server_webroot_host_zfs_dir }}'
     owner: '{{ sftp_user_uid | default("www") }}'
     group: 'www'
@@ -63,6 +63,6 @@
 - name: Delete obsolete file (local)
   become: false
   local_action: file
-    path=./joomla-package.zip
+    path=/tmp/joomla-package.zip
     state=absent
 
