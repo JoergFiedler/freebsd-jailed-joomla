@@ -1,10 +1,7 @@
 ---
 - include: pf.yml
-  tags:
-    - joomla
+  tags: joomla
 - include: nginx-server.yml
-  tags:
-    - joomla
+  tags: joomla
 - include: joomla.yml
-  tags:
-    - joomla
+  tags: joomla

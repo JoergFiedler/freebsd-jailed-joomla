@@ -1,7 +1,7 @@
 ---
 galaxy_info:
   author: Joerg Fiedler
-  description: Installs Joomla
+  description: Provides a jailed Joomla server.
   license: BSD
   min_ansible_version: 2.0
   platforms:
@@ -19,4 +19,17 @@ galaxy_info:
     - nginx
 allow_duplicates: yes
 dependencies:
-  - { role: JoergFiedler.freebsd-jailed-php-fpm }
+  - { role: JoergFiedler.freebsd-jailed-nginx,
+      nginx_servers: [ {
+        default: '{{ joomla_server_default }}',
+        php_fpm_enabled: true,
+        name: '{{ joomla_server_name }}',
+        force_www: '{{ joomla_server_force_www }}',
+        force_https: '{{ joomla_server_force_https | default("no") }}',
+        aliases: '{{ joomla_server_aliases | default() }}',
+        sftp: {
+          uuid: '{{ joomla_sftp_uuid }}',
+          authorized_keys: '{{ joomla_sftp_authorized_keys }}',
+          port: '{{ joomla_sftp_port }}'
+        }
+      }]}

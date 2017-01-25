@@ -19,13 +19,13 @@ Role Variables
 The Joomla Download URL. Default: `'https://github.com/joomla/joomla-cms/releases/download/3.4.8/Joomla_3.4.8-Stable-Full_Package.zip'`.
 
 ##### joomla_db_name
-The MariaDB database name. The database will be created if not exists. Default: : Default: `'joomla_{{ server_name_ }}'`.
+The MariaDB database name. The database will be created if not exists. Default: : Default: `'joomla_{{ joomla_server_name_ }}'`.
 
 ##### joomla_db_user
-The db user name for Joomla CMS. Default: `'joomla_{{ server_name_ }}'`.
+The db user name for Joomla CMS. Default: `'joomla_{{ joomla_server_name_ }}'`.
 
 ##### joomla_db_password
-The Joomla CMS's db user password. Default: `'joomla_{{ server_name_ }}'`.
+The Joomla CMS's db user password. Default: `'joomla_{{ joomla_server_name_ }}'`.
 
 ##### joomla_db_priv
 The priviliges granted to the Joomla CMS's db user. Default: `'{{ joomla_db_name }}.*:All'`.

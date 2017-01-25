@@ -38,27 +38,27 @@
   unarchive:
     copy: 'yes'
     src: '/tmp/joomla-package.zip'
-    dest: '{{ server_webroot_host_zfs_dir }}'
-    owner: '{{ sftp_user_uid | default("www") }}'
+    dest: '{{ joomla_server_webroot_host_zfs_dir }}'
+    owner: '{{ joomla_sftp_user_uid | default("www") }}'
     group: 'www'
   when: not joomla_index_file.stat.exists
 
 - name: Update webroot file permissions
   file:
-    path: '{{ server_webroot_host_zfs_dir }}'
+    path: '{{ joomla_server_webroot_host_zfs_dir }}'
     state: 'directory'
     recurse: 'yes'
     mode: 'u+rw,g-w,o-rwx'
-    owner: '{{ sftp_user_uid | default("www") }}'
+    owner: '{{ joomla_sftp_user_uid | default("www") }}'
     group: 'www'
 
 - name: Delete obsolete files
   file: path={{ item }}
         state=absent
   with_items:
-  - '{{ server_webroot_host_zfs_dir }}/robots.txt.dist'
-  - '{{ server_webroot_host_zfs_dir }}/web.config.txt'
-  - '{{ server_webroot_host_zfs_dir }}/htaccess.txt'
+  - '{{ joomla_server_webroot_host_zfs_dir }}/robots.txt.dist'
+  - '{{ joomla_server_webroot_host_zfs_dir }}/web.config.txt'
+  - '{{ joomla_server_webroot_host_zfs_dir }}/htaccess.txt'
 
 - name: Delete obsolete file (local)
   become: false
