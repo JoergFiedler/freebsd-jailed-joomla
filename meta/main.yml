@@ -27,6 +27,8 @@ dependencies:
         force_www: '{{ joomla_server_force_www }}',
         force_https: '{{ joomla_server_force_https | default("no") }}',
         aliases: '{{ joomla_server_aliases | default() }}',
+        https: { use_letsencrypt: true },
+        sftp_enabled: true,
         sftp: {
           uuid: '{{ joomla_sftp_uuid }}',
           authorized_keys: '{{ joomla_sftp_authorized_keys }}',
