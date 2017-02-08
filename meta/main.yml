@@ -8,6 +8,8 @@ galaxy_info:
     - name: FreeBSD
       versions:
         - 10.2
+        - 10.3
+        - 11.0
   galaxy_tags:
     - FreeBSD
     - jails
@@ -21,17 +23,22 @@ allow_duplicates: yes
 dependencies:
   - { role: JoergFiedler.freebsd-jailed-nginx,
       nginx_servers: [ {
+        aliases: '{{ joomla_server_aliases }}',
         default: '{{ joomla_server_default }}',
-        php_fpm_enabled: true,
-        name: '{{ joomla_server_name }}',
+        force_https: '{{ joomla_server_force_https }}',
         force_www: '{{ joomla_server_force_www }}',
-        force_https: '{{ joomla_server_force_https | default("no") }}',
-        aliases: '{{ joomla_server_aliases | default() }}',
-        https: { use_letsencrypt: true },
+        https: {
+          enabled: '{{ joomla_server_force_https }}',
+          letsencrypt_enabled: '{{ joomla_server_force_https }}'
+        },
+        name: '{{ joomla_server_name }}',
+        php_fpm_enabled: true,
         sftp_enabled: true,
         sftp: {
-          uuid: '{{ joomla_sftp_uuid }}',
           authorized_keys: '{{ joomla_sftp_authorized_keys }}',
-          port: '{{ joomla_sftp_port }}'
+          home: '{{ joomla_server_webroot_home }}',
+          port: '{{ joomla_sftp_port }}',
+          user: '{{ joomla_sftp_user }}',
+          uuid: '{{ joomla_sftp_uid }}'
         }
       }]}

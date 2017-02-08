@@ -9,7 +9,11 @@ location = /robots.txt$ {
 }
 
 rewrite /administrator$ $scheme://$host$uri/index.php permanent;
-location ~ /administrator/index.php {
+location /administrator {
+  set $skip_cache 1;
+}
+
+location /installation {
   set $skip_cache 1;
 }
 

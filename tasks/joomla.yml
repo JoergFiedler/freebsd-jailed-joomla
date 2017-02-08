@@ -24,7 +24,7 @@
               state=present
 
 - name: Check if Joomla Installation is present
-  stat: path={{ server_webroot_host_zfs_dir }}/administrator
+  stat: path={{ joomla_server_webroot_host_zfs_dir }}/administrator
   register: joomla_index_file
 
 - name: Download Joomla
@@ -36,7 +36,8 @@
 
 - name: Extract Joomla
   unarchive:
-    copy: 'yes'
+    copy: yes
+    list_files: true
     src: '/tmp/joomla-package.zip'
     dest: '{{ joomla_server_webroot_host_zfs_dir }}'
     owner: '{{ joomla_sftp_user_uid | default("www") }}'
@@ -49,7 +50,7 @@
     state: 'directory'
     recurse: 'yes'
     mode: 'u+rw,g-w,o-rwx'
-    owner: '{{ joomla_sftp_user_uid | default("www") }}'
+    owner: '{{ joomla_sftp_uid | default("www") }}'
     group: 'www'
 
 - name: Delete obsolete files

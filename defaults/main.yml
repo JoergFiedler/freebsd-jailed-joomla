@@ -1,20 +1,26 @@
 ---
 # defaults file for freebsd-jailed-joomla
 joomla_server_name: '{{ jail_name }}'
+joomla_server_aliases: ''
 joomla_server_name_: '{{ joomla_server_name | replace(".", "_") }}'
-joomla_server_force_www: true
+joomla_server_force_www: false
 joomla_server_default: true
-joomla_download_url: 'https://github.com/joomla/joomla-cms/releases/download/3.4.8/Joomla_3.4.8-Stable-Full_Package.zip'
+joomla_server_force_https: false
+joomla_download_url: 'https://github.com/joomla/joomla-cms/releases/download/3.6.5/Joomla_3.6.5-Stable-Full_Package.zip'
 
-joomla_server_webroot_host_zfs_dir: '{{ host_zfs_www_dir }}/{{ joomla_server_name }}/webroot'
+joomla_server_webroot_host_zfs_dir: '{{ host_zfs_www_dir }}{{ joomla_server_webroot_home }}'
+joomla_server_webroot_home: '/{{ joomla_server_name }}/webroot'
 
+joomla_db_host: '10.1.0.4'
+joomla_db_host_password: 'passwd'
+joomla_db_host_user: 'root'
 joomla_db_name: 'joomla_{{ joomla_server_name_ }}'
-joomla_db_user: 'joomla_{{ joomla_server_name_ }}'
 joomla_db_password: 'joomla_{{ joomla_server_name_ }}'
 joomla_db_priv: '{{ joomla_db_name }}.*:All'
-joomla_db_host: '10.1.0.4'
-joomla_db_host_user: 'root'
-joomla_db_host_password: 'passwd'
-joomla_sftp_uuid: 5000
+joomla_db_user: 'joomla_{{ joomla_server_name_ }}'
+
 joomla_sftp_port: 10200
+joomla_sftp_user: 'sftp_{{ joomla_server_name_ | truncate(5, True, "") }}'
+joomla_sftp_uid: 5000
+joomla_sftp_authorized_keys: ''
 
