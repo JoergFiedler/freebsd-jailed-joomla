@@ -21,6 +21,9 @@ script:
   sftp_local@${host} <<< $'ls -l' |grep webroot |wc -l) == "1"
 after_script:
 - vagrant destroy -f
+notifications:
+  webhooks:
+    - https://galaxy.ansible.com/api/v1/notifications/
 env:
   global:
   - secure: GlTjylAGKcRJubGalHjWBJmYUcobdg7ey27j2ELBDZxg3Qcupi6tfs4k+HPFDNCwPqsnt6/xXJYCXBydkEL6Mx5PupT1w+zZAPwVftPpU5dIctj6BXsNH5crlJhFE8MguR4nj6RcRZxXQLhAhSez1fTKYNYJVZsoxyjhudQe0Ml82BAuLxQyIcS/JyD0mV6qUcnWV/+HrdoZMqM/I4z9wE7yFm2fQCJoOptJXk2S/lR1pl+oiju5nZnmn3UZI+IzvDI3lcnXwY+yP1fmIMNXZY/wsNsb/+eE6ZCWPaWD0rXDlvWykHZgOhiExz0qyLb8dO3tTrHm3Tkq2xW1LbIQfdO/z3AcbzbDgGL8AHu8RZL+qKcqkN7+i1RngaliBCC0WuVJ+GOxV/sb43cTFr7s3/tlvVki3ol2uEUtxPV49bLlipOaYxirsRdGH9tvS5sU6y9jFqDf9jQ64RatzIbFAbJxy8yECrhKL6WVbM7R8aMN/8C94d79ScW9mmLZaf7SJyV72jzmeWTnDHA1zNwwB1XqFv2THmQBQorVBUmeYYBNry4s3qxRmYvzrRKnVkYcdx3mBq/qg5zfAND+dE9Mo0xTInLKRVCYRD53Lmk/1Gu+4Mv3Jvr7t+bMmXlD7w9qpjXOQ17BuUB0RqPCRTtKKP82+5VPI/3kgL1UPJ7JDO0=
