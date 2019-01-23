@@ -3,21 +3,20 @@ galaxy_info:
   author: Joerg Fiedler
   description: Provides a jailed Joomla server.
   license: BSD
-  min_ansible_version: 2.7
+  min_ansible_version: 2.7.0
   platforms:
     - name: FreeBSD
       versions:
         - 11.2
   galaxy_tags:
-    - freebsd
-    - jail
-    - iocage
     - cloud
     - ec2
-    - php
     - fpm
+    - freebsd
+    - iocage
+    - jail
     - joomla
-    - nginx
+    - web
 allow_duplicates: yes
 dependencies:
   - role: JoergFiedler.freebsd-jailed-nginx
