@@ -1,12 +1,3 @@
 ---
 # vars file for freebsd-jailed-joomla
 joomla_server_name_: '{{ joomla_server_name | replace(".", "_") }}'
-
-nginx_servers: [ {
-  default: true,
-  name: '{{ joomla_server_name }}',
-  sftp: {
-    port: '{{ joomla_sftp_port }}',
-    authorized_keys: '{{ joomla_sftp_authorized_keys }}'
-  }
-}]

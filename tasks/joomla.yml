@@ -1,45 +1,64 @@
 ---
 - name: Install additional packages
-  pkgng: name={{ item }}
-         state=present
-  with_items:
-  - py27-MySQLdb
+  pkgng:
+    name: '{{ item }}'
+    state: present
+  loop:
+    - py27-MySQLdb
+  register: pkg_result
+  until: pkg_result is succeeded
 
 - name: Create Joomla database
-  mysql_db: name={{ joomla_db_name }}
-            login_host={{ joomla_db_host }}
-            login_password={{ joomla_db_host_password }}
-            login_user={{ joomla_db_host_user }}
-            state=present
+  mysql_db:
+    name: '{{ joomla_db_name }}'
+    login_host: '{{ joomla_db_host }}'
+    login_password: '{{ joomla_db_host_password }}'
+    login_user: '{{ joomla_db_host_user }}'
+    state: present
 
 - name: Create MariaDB joomla user
-  mysql_user: name={{ joomla_db_user }}
-              encrypted=no
-              host={{ jail_net_ip }}
-              login_host={{ joomla_db_host }}
-              login_password={{ joomla_db_host_password }}
-              login_user={{ joomla_db_host_user }}
-              password={{ joomla_db_password }}
-              priv={{ joomla_db_priv }}
-              state=present
+  mysql_user:
+    name: '{{ joomla_db_user }}'
+    encrypted: no
+    host: '{{ jail_net_ip }}'
+    login_host: '{{ joomla_db_host }}'
+    login_password: '{{ joomla_db_host_password }}'
+    login_user: '{{ joomla_db_host_user }}'
+    password: '{{ joomla_db_password }}'
+    priv: '{{ joomla_db_priv }}'
+    state: present
 
 - name: Check if Joomla Installation is present
-  stat: path={{ joomla_server_webroot_host_zfs_dir }}/administrator
+  stat:
+    path: '{{ joomla_server_webroot_host_zfs_dir }}/administrator'
   register: joomla_index_file
 
 - name: Download Joomla
   become: false
-  local_action: get_url
-    url={{ joomla_download_url }}
-    dest=/tmp/joomla-package.zip
+  get_url:
+    url: '{{ joomla_download_url }}'
+    dest: '/tmp/joomla-package.tar.gz'
+  delegate_to: 127.0.0.1
   when: not joomla_index_file.stat.exists
 
-- name: Extract Joomla
-  unarchive:
-    copy: yes
-    list_files: true
-    src: '/tmp/joomla-package.zip'
-    dest: '{{ joomla_server_webroot_host_zfs_dir }}'
+- name: Copy Joomla package
+  copy:
+    src: '/tmp/joomla-package.tar.gz'
+    dest: '/tmp/joomla-package.tar.gz'
+  when: not joomla_index_file.stat.exists
+
+- name: Extract Joomla package
+  command: |
+    /usr/bin/tar \
+      -xzf /tmp/joomla-package.tar.gz \
+      -C {{ joomla_server_webroot_host_zfs_dir }}
+  when: not joomla_index_file.stat.exists
+  tags:
+    - skip_ansible_lint
+
+- name: Adjust owner of unpacked file
+  file:
+    path: '{{ joomla_server_webroot_host_zfs_dir }}'
     owner: '{{ joomla_sftp_user_uid | default("www") }}'
     group: 'www'
   when: not joomla_index_file.stat.exists
@@ -50,20 +69,22 @@
     state: 'directory'
     recurse: 'yes'
     mode: 'u+rw,g-w,o-rwx'
-    owner: '{{ joomla_sftp_uid | default("www") }}'
+    owner: '{{ joomla_sftp_uuid }}'
     group: 'www'
 
 - name: Delete obsolete files
-  file: path={{ item }}
-        state=absent
-  with_items:
-  - '{{ joomla_server_webroot_host_zfs_dir }}/robots.txt.dist'
-  - '{{ joomla_server_webroot_host_zfs_dir }}/web.config.txt'
-  - '{{ joomla_server_webroot_host_zfs_dir }}/htaccess.txt'
+  file:
+    path: '{{ item }}'
+    state: absent
+  loop:
+    - '/tmp/joomla-package.tar.gz'
+    - '{{ joomla_server_webroot_host_zfs_dir }}/robots.txt.dist'
+    - '{{ joomla_server_webroot_host_zfs_dir }}/web.config.txt'
+    - '{{ joomla_server_webroot_host_zfs_dir }}/htaccess.txt'
 
 - name: Delete obsolete file (local)
   become: false
-  local_action: file
-    path=/tmp/joomla-package.zip
-    state=absent
-
+  file:
+    path: '/tmp/joomla-package.tar.gz'
+    state: absent
+  delegate_to: 127.0.0.1

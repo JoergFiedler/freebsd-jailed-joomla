@@ -1,0 +1,28 @@
+- hosts: all
+  become: true
+
+  tasks:
+    - include_role:
+        name: 'JoergFiedler.freebsd-jailed-mariadb'
+      vars:
+        jail_freebsd_release: '11.2-RELEASE'
+        jail_name: 'mariadb'
+        jail_net_ip: '10.1.0.5'
+    - include_role:
+        name: 'JoergFiedler.freebsd-jailed-joomla'
+      tags:
+        - joomla
+      vars:
+        jail_freebsd_release: '11.2-RELEASE'
+        jail_name: 'joomla'
+        jail_net_ip: '10.1.0.10'
+        joomla_db_host: '10.1.0.5'
+        joomla_db_host_password: 'passwd'
+        joomla_db_host_user: 'root'
+        joomla_db_password: 'password'
+        joomla_download_url: 'https://downloads.joomla.org/cms/joomla3/3-9-1/joomla_3-9-1-stable-full_package-tar-gz?format=gz'
+        joomla_server_https_enabled: yes
+        joomla_server_name: 'localhost'
+        joomla_nginx_pf_redirect: yes
+        joomla_sftp_authorized_keys: '~/.vagrant.d/insecure_private_key.pub'
+        joomla_sftp_port: 10022

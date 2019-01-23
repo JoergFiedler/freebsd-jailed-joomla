@@ -1,7 +1,10 @@
 ---
-- include: pf.yml
-  tags: joomla
-- include: nginx-server.yml
-  tags: joomla
-- include: joomla.yml
-  tags: joomla
+- import_tasks: pf.yml
+  tags:
+    - joomla
+- import_tasks: nginx-server.yml
+  tags:
+    - joomla
+- import_tasks: joomla.yml
+  tags:
+    - joomla

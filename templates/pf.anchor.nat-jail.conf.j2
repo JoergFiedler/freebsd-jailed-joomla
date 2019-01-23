@@ -1,7 +1,7 @@
-# nat http(s) requests to udpate Joomla
-# https://www.maxcdn.com/one/tutorial/ip-blocks/
-table <maxcdn_ips> persist file "/etc/pf.table.maxcdn.ips"
+{{ ansible_managed | comment }}
+
+# nat http(s) requests to update Joomla
 nat pass log on {{ host_net_ext_if }} proto tcp \
   from {{ jail_net_ip }} \
-  to <maxcdn_ips> port { http,https } \
+  to any port { http,https } \
   -> {{ host_net_ext_ip }}
