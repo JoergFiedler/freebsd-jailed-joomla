@@ -2,7 +2,7 @@
 - name: Install additional packages
   pkgng:
     name: '{{ item }}'
-    state: present
+    state: latest
   loop:
     - py27-MySQLdb
   register: pkg_result
