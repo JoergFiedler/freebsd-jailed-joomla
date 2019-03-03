@@ -1,22 +1,14 @@
 {{ ansible_managed | comment }}
 
-location = /favicon.ico$ {
-  log_not_found off;
-  access_log off;
-}
-
-location = /robots.txt$ {
-  log_not_found off;
-  access_log off;
-}
-
 rewrite /administrator$ $scheme://$host$uri/index.php permanent;
-location /administrator {
+location ~ /administrator/index.php {
   set $skip_cache 1;
+  include /usr/local/etc/nginx/includes/{{ server.name }}.fastcgi.conf;
 }
 
-location /installation {
+location ~ /installation {
   set $skip_cache 1;
+  include /usr/local/etc/nginx/includes/{{ server.name }}.fastcgi.conf;
 }
 
 location ~* /(images|cache|media|logs|tmp)/.*\.(php|pl|py|sh|cgi)$ {
@@ -29,6 +21,11 @@ location ~* /\. {
 }
 
 try_files $uri $uri/ /index.php/$args;
+
+location ~ ^/index.php {
+  set $skip_cache 0;
+  include /usr/local/etc/nginx/includes/{{ server.name }}.fastcgi.conf;
+}
 
 # caching
 location ~* \.(js|css|png|jpg|jpeg|gif|xml|txt|ico|pdf)$ {
