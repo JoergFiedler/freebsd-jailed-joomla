@@ -53,13 +53,15 @@ Example Playbook
       become: true
     
       tasks:
-        - include_role:
+        - import_role:
             name: 'JoergFiedler.freebsd-jailed-mariadb'
+          tags:
+            - mariadb
           vars:
             jail_freebsd_release: '11.2-RELEASE'
             jail_name: 'mariadb'
             jail_net_ip: '10.1.0.5'
-        - include_role:
+        - import_role:
             name: 'JoergFiedler.freebsd-jailed-joomla'
           tags:
             - joomla
