@@ -54,6 +54,8 @@ Example Playbook
     
       tasks:
         - import_role:
+            name: 'JoergFiedler.freebsd-jail-host'
+        - import_role:
             name: 'JoergFiedler.freebsd-jailed-mariadb'
           tags:
             - mariadb
