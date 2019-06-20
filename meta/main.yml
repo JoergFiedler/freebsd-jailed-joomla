@@ -36,7 +36,14 @@ dependencies:
             certbundle_file: '{{ joomla_server_https_certbundle_file }}'
             dhparam_file: '{{ joomla_server_https_dhparam_file }}'
           name: '{{ joomla_server_name }}'
-          php_fpm_enabled: yes
+          php:
+            fpm_enabled: yes
+            fastcgi_cache: '{{ joomla_server_php_fastcgi_cache }}'
+            max_requests: '{{ joomla_server_php_max_requests }}'
+            max_children: '{{ joomla_server_php_max_children }}'
+            memory_limit: '{{ joomla_server_php_memory_limit }}'
+            upload_max_filesize: '{{ joomla_server_php_upload_max_filesize }}'
+            post_max_size: '{{ joomla_server_php_post_max_size }}'
           sftp:
             authorized_keys: '{{ joomla_sftp_authorized_keys }}'
             home: '{{ joomla_server_home }}'

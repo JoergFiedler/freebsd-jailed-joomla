@@ -33,6 +33,12 @@ Role Variables
 | joomla_server_https_enabled | Enable HTTPS for this server. Automatic redirect of non-HTTPS request will happen. | `yes` |
 | joomla_server_https_key_file | The server's private key. | `localhost-key.pem` |
 | joomla_server_name | The server name (domain name). | `{{ jail_name }}` |
+| joomla_server_php_fastcgi_cache | Set to `off` to disable the fastcgi cache. | `'z_nginx'` |
+| joomla_server_php_max_requests | Maximum number of request handled by php fpm children. | `1000` |
+| joomla_server_php_max_children | Maximum number of php fpm children running. | `3` |
+| joomla_server_php_memory_limit| Memory limit for php fpm. | `'64M'` |
+| joomla_server_php_upload_max_filesize | Max file upload size accepted. | `'48M'` |
+| joomla_server_php_post_max_size| Max post request size. | `'46M'` |
 | joomla_nginx_pf_redirect | All http(s) traffic will be redirect from host to this jail. | `no` |
 | joomla_server_syslogd_server | The syslogd server to use for request logging. | `localhost` |
 | joomla_server_tarsnap_enabled | Backup the server's webroot using Tarsnap. Must be enabled on host level as well. | `no` |

@@ -26,6 +26,13 @@ joomla_server_syslogd_server: 'localhost'
 joomla_server_tarsnap_enabled: no
 joomla_server_webroot_host_zfs_dir: '{{ host_zfs_www_dir }}/{{ joomla_server_name }}/webroot'
 
+joomla_server_php_fastcgi_cache: 'z_nginx'
+joomla_server_php_max_requests: 1000
+joomla_server_php_max_children: 3
+joomla_server_php_memory_limit: '64M'
+joomla_server_php_upload_max_filesize: '48M'
+joomla_server_php_post_max_size: '46M'
+
 joomla_sftp_authorized_keys: ''
 joomla_sftp_port: 10022
 joomla_sftp_uuid: 5000
