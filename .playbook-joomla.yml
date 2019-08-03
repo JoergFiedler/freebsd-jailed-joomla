@@ -10,7 +10,6 @@
         jail_freebsd_release: '11.2-RELEASE'
         jail_name: 'mariadb'
         jail_net_ip: '10.1.0.5'
-        mariadb_server_pkg: 'mariadb102-server'
     - include_role:
         name: 'JoergFiedler.freebsd-jailed-joomla'
       tags:
