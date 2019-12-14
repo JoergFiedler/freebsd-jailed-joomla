@@ -1,13 +1,16 @@
 - hosts: all
   become: true
 
+  vars:
+    host_ioc_release_version: '11.3-RELEASE'
+    
   tasks:
     - import_role:
         name: 'JoergFiedler.freebsd-jail-host'
     - include_role:
         name: 'JoergFiedler.freebsd-jailed-mariadb'
       vars:
-        jail_freebsd_release: '11.2-RELEASE'
+        jail_freebsd_release: '{{ host_ioc_release_version }}'
         jail_name: 'mariadb'
         jail_net_ip: '10.1.0.5'
     - include_role:
@@ -15,7 +18,7 @@
       tags:
         - joomla
       vars:
-        jail_freebsd_release: '11.2-RELEASE'
+        jail_freebsd_release: '{{ host_ioc_release_version }}'
         jail_name: 'joomla'
         jail_net_ip: '10.1.0.10'
         joomla_db_host: '10.1.0.5'
