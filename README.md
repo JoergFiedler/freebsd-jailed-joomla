@@ -61,20 +61,16 @@ Example Playbook
       tasks:
         - import_role:
             name: 'JoergFiedler.freebsd-jail-host'
-        - import_role:
+        - include_role:
             name: 'JoergFiedler.freebsd-jailed-mariadb'
-          tags:
-            - mariadb
           vars:
-            jail_freebsd_release: '11.2-RELEASE'
             jail_name: 'mariadb'
             jail_net_ip: '10.1.0.5'
-        - import_role:
+        - include_role:
             name: 'JoergFiedler.freebsd-jailed-joomla'
           tags:
             - joomla
           vars:
-            jail_freebsd_release: '11.2-RELEASE'
             jail_name: 'joomla'
             jail_net_ip: '10.1.0.10'
             joomla_db_host: '10.1.0.5'
@@ -87,7 +83,7 @@ Example Playbook
             joomla_nginx_pf_redirect: yes
             joomla_sftp_authorized_keys: '~/.vagrant.d/insecure_private_key.pub'
             joomla_sftp_port: 10022
-    
+
 License
 -------
 
